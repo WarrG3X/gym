@@ -144,14 +144,19 @@ class FetchEnv(robot_env.RobotEnv):
                 self.modder.rand_all(name)
 
             #Camera
-            pos = np.array([1.3,0,1.2]) + self.np_random.uniform(-0.1,0.1,size=3)
-            self.cam_modder.set_pos('external_camera_0',pos)
+            if 'FetchSlide' in self.__class__.__name__:
+                pos = np.array([1.8,0,1.2]) + self.np_random.uniform(-0.1,0.1,size=3)
+                self.cam_modder.set_pos('external_camera_0',pos)
+            else:
+                pos = np.array([1.3,0,1.2]) + self.np_random.uniform(-0.1,0.1,size=3)
+                self.cam_modder.set_pos('external_camera_0',pos)
+                
 
             # #Light
-            # self.light_modder.set_castshadow('light0',1)
-            # pos = np.array([0.8,0.9,3])
-            # pos[:2] = pos[:2] + self.np_random.uniform(-0.85,0.85,size=2)
-            # self.light_modder.set_pos('light0',pos)
+            self.light_modder.set_castshadow('light0',1)
+            pos = np.array([0.8,0.75,4])
+            pos[:2] = pos[:2] + self.np_random.uniform(-1,1,size=2)
+            self.light_modder.set_pos('light0',pos)
 
         # Randomize start position of object.
         if self.has_object:
