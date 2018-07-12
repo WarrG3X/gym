@@ -308,28 +308,56 @@ for reward_type in ['sparse', 'dense']:
     register(
         id='FetchSlide{}-v1'.format(suffix),
         entry_point='gym.envs.robotics:FetchSlideEnv',
-        kwargs=kwargs,
+        kwargs=_merge({'rand_dom':False},kwargs),
         max_episode_steps=50,
     )
 
     register(
         id='FetchPickAndPlace{}-v1'.format(suffix),
         entry_point='gym.envs.robotics:FetchPickAndPlaceEnv',
-        kwargs=kwargs,
+        kwargs=_merge({'rand_dom':False},kwargs),
         max_episode_steps=50,
     )
 
     register(
         id='FetchReach{}-v1'.format(suffix),
         entry_point='gym.envs.robotics:FetchReachEnv',
-        kwargs=kwargs,
+        kwargs=_merge({'rand_dom':False},kwargs),
         max_episode_steps=50,
     )
 
     register(
         id='FetchPush{}-v1'.format(suffix),
         entry_point='gym.envs.robotics:FetchPushEnv',
-        kwargs=kwargs,
+        kwargs=_merge({'rand_dom':False},kwargs),
+        max_episode_steps=50,
+    )
+    # Fetch + Domain_Randomization
+    register(
+        id='FetchSlideDR{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchSlideEnv',
+        kwargs=_merge({'rand_dom':True},kwargs),
+        max_episode_steps=50,
+    )
+
+    register(
+        id='FetchPickAndPlaceDR{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPickAndPlaceEnv',
+        kwargs=_merge({'rand_dom':True},kwargs),
+        max_episode_steps=50,
+    )
+
+    register(
+        id='FetchReachDR{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchReachEnv',
+        kwargs=_merge({'rand_dom':True},kwargs),
+        max_episode_steps=50,
+    )
+
+    register(
+        id='FetchPushDR{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPushEnv',
+        kwargs=_merge({'rand_dom':True},kwargs),
         max_episode_steps=50,
     )
 

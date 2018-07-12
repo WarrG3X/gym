@@ -3,7 +3,7 @@ from gym.envs.robotics import fetch_env
 
 
 class FetchPushEnv(fetch_env.FetchEnv, utils.EzPickle):
-    def __init__(self, reward_type='sparse'):
+    def __init__(self, reward_type='sparse',rand_dom=False):
         initial_qpos = {
             'robot0:slide0': 0.405,
             'robot0:slide1': 0.48,
@@ -14,5 +14,5 @@ class FetchPushEnv(fetch_env.FetchEnv, utils.EzPickle):
             self, 'fetch/push.xml', has_object=True, block_gripper=True, n_substeps=20,
             gripper_extra_height=0.0, target_in_the_air=False, target_offset=0.0,
             obj_range=0.15, target_range=0.15, distance_threshold=0.05,
-            initial_qpos=initial_qpos, reward_type=reward_type)
+            initial_qpos=initial_qpos, reward_type=reward_type,rand_dom=rand_dom)
         utils.EzPickle.__init__(self)

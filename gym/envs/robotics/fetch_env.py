@@ -15,7 +15,7 @@ class FetchEnv(robot_env.RobotEnv):
     def __init__(
         self, model_path, n_substeps, gripper_extra_height, block_gripper,
         has_object, target_in_the_air, target_offset, obj_range, target_range,
-        distance_threshold, initial_qpos, reward_type,
+        distance_threshold, initial_qpos, reward_type,rand_dom,
     ):
         """Initializes a new Fetch environment.
 
@@ -32,6 +32,7 @@ class FetchEnv(robot_env.RobotEnv):
             distance_threshold (float): the threshold after which a goal is considered achieved
             initial_qpos (dict): a dictionary of joint names and values that define the initial configuration
             reward_type ('sparse' or 'dense'): the reward type, i.e. sparse or dense
+            rand_dom (boolean): Whether to use Domain Randomization
         """
         self.gripper_extra_height = gripper_extra_height
         self.block_gripper = block_gripper
@@ -42,6 +43,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.target_range = target_range
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
+        self.rand_dom = rand_dom
 
         super(FetchEnv, self).__init__(
             model_path=model_path, n_substeps=n_substeps, n_actions=4,
@@ -138,7 +140,6 @@ class FetchEnv(robot_env.RobotEnv):
 
     def _reset_sim(self):
         self.sim.set_state(self.initial_state)
-        self.rand_dom = True
         if self.viewer!= None and self.rand_dom: 
             for name in self.sim.model.geom_names:
                 self.modder.rand_all(name)
