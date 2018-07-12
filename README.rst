@@ -1,5 +1,18 @@
 OpenAI Gym
 **********
+**Changes From Original** `Repo <https://github.com/openai/gym>`_ **:**
+
+Added Domain Randomization for Fetch Enviroments. These can be accessed by using Fetch<>DR-v1 instead of Fetch<>-v1 while calling gym.make(). Example - 
+
+.. code:: python
+
+    import gym
+    env = gym.make('FetchSlideDR-v1')
+    env.reset()
+    env.render()
+
+--------------------------------------------------------------------------------------------------------------------------
+
 
 **OpenAI Gym is a toolkit for developing and comparing reinforcement learning algorithms.** This is the ``gym`` open-source library, which gives you access to a standardized set of environments.
 
