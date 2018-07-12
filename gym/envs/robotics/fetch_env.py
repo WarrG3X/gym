@@ -143,9 +143,9 @@ class FetchEnv(robot_env.RobotEnv):
             for name in self.sim.model.geom_names:
                 self.modder.rand_all(name)
 
-            # #Camera
-            # pos = np.array([0,-1,1]) + self.np_random.uniform(-0.1,0.1,size=3)
-            # self.cam_modder.set_pos('camera0',pos)
+            #Camera
+            pos = np.array([1.3,0,1.2]) + self.np_random.uniform(-0.1,0.1,size=3)
+            self.cam_modder.set_pos('external_camera_0',pos)
 
             # #Light
             # self.light_modder.set_castshadow('light0',1)
