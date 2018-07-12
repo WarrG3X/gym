@@ -16,6 +16,8 @@ def main(env,render,steps):
         for i in range(steps):
             if render:
                 env.render()
+                # img = env.capture()
+                # imsave('test.png',img)
             action = env.action_space.sample()
             observation, reward, done, info = env.step(action)
 

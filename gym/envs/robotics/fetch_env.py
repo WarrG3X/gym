@@ -1,6 +1,7 @@
 import numpy as np
 
 from gym.envs.robotics import rotations, robot_env, utils
+from mujoco_py.generated import const
 
 
 def goal_distance(goal_a, goal_b):
@@ -130,6 +131,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.viewer.cam.distance = 2.5
         self.viewer.cam.azimuth = 132.
         self.viewer.cam.elevation = -14.
+        self.viewer._hide_overlay = True
 
     def _render_callback(self):
         # Visualize target.
@@ -205,3 +207,12 @@ class FetchEnv(robot_env.RobotEnv):
         self.initial_gripper_xpos = self.sim.data.get_site_xpos('robot0:grip').copy()
         if self.has_object:
             self.height_offset = self.sim.data.get_site_xpos('object0')[2]
+
+    def capture(self):
+        if self.viewer == None:
+            pass
+        else:
+            self.viewer.cam.fixedcamid = 3
+            self.viewer.cam.type = const.CAMERA_FIXED
+            img = self.viewer._read_pixels_as_in_window()
+            return img
