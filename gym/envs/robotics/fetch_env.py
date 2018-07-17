@@ -45,6 +45,7 @@ class FetchEnv(robot_env.RobotEnv):
         self.distance_threshold = distance_threshold
         self.reward_type = reward_type
         self.rand_dom = rand_dom
+        self.modified_goal_generation = True
 
         super(FetchEnv, self).__init__(
             model_path=model_path, n_substeps=n_substeps, n_actions=4,
@@ -163,31 +164,54 @@ class FetchEnv(robot_env.RobotEnv):
 
         # Randomize start position of object.
         if self.has_object:
-            object_xpos = self.initial_gripper_xpos[:2]
-            while np.linalg.norm(object_xpos - self.initial_gripper_xpos[:2]) < 0.1:
-                object_xpos = self.initial_gripper_xpos[:2] + self.np_random.uniform(-self.obj_range, self.obj_range, size=2)
-            object_qpos = self.sim.data.get_joint_qpos('object0:joint')
-            assert object_qpos.shape == (7,)
-            object_qpos[:2] = object_xpos
-            self.sim.data.set_joint_qpos('object0:joint', object_qpos)
+            #Modified
+            if self.modified_goal_generation:
+                goal = self.initial_gripper_xpos[:3]
+                goal[0] = self.np_random.uniform(1.05, 1.55)
+                goal[1] = self.np_random.uniform(0.4, 1.1)
+                goal[2] = 0.4
+            #Original
+            else:
+                object_xpos = self.initial_gripper_xpos[:2]
+                while np.linalg.norm(object_xpos - self.initial_gripper_xpos[:2]) < 0.1:
+                    object_xpos = self.initial_gripper_xpos[:2] + self.np_random.uniform(-self.obj_range, self.obj_range, size=2)
+                object_qpos = self.sim.data.get_joint_qpos('object0:joint')
+                assert object_qpos.shape == (7,)
+                object_qpos[:2] = object_xpos
+                self.sim.data.set_joint_qpos('object0:joint', object_qpos)
 
         self.sim.forward()
         return True
 
     def _sample_goal(self):
         if self.has_object:
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
-            goal += self.target_offset
-            goal[2] = self.height_offset
-            if self.target_in_the_air and self.np_random.uniform() < 0.5:
-                goal[2] += self.np_random.uniform(0, 0.45)
-        else:
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3) #Original
-
             #Modified
-            goal[0] = self.np_random.uniform(1.05, 1.55)
-            goal[1] = self.np_random.uniform(0.4, 1.1)
-            goal[2] = self.np_random.uniform(0.4, 0.46)
+            if self.modified_goal_generation:
+                goal = self.initial_gripper_xpos[:3]
+                goal[0] = self.np_random.uniform(1.05, 1.55)
+                goal[1] = self.np_random.uniform(0.4, 1.1)
+                goal[2] = 0.4
+                if self.target_in_the_air and self.np_random.uniform() < 0.5:
+                    goal[2] = self.np_random.uniform(0.4, 0.46)  
+            
+            #Original
+            else:
+                goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-self.target_range, self.target_range, size=3)
+                goal += self.target_offset
+                goal[2] = self.height_offset
+                if self.target_in_the_air and self.np_random.uniform() < 0.5:
+                    goal[2] += self.np_random.uniform(0, 0.45)
+        else:
+            #Modified
+            if self.modified_goal_generation:
+                goal = self.initial_gripper_xpos[:3]
+                goal[0] = self.np_random.uniform(1.05, 1.55)
+                goal[1] = self.np_random.uniform(0.4, 1.1)
+                goal[2] = self.np_random.uniform(0.4, 0.46)
+            #Original
+            else:
+                goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3) 
+
         return goal.copy()
 
     def _is_success(self, achieved_goal, desired_goal):
