@@ -183,6 +183,7 @@ class FetchEnv(robot_env.RobotEnv):
                 goal[2] += self.np_random.uniform(0, 0.45)
         else:
             goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3)
+            goal[2] = self.np_random.uniform(0.4, 0.46)
         return goal.copy()
 
     def _is_success(self, achieved_goal, desired_goal):
