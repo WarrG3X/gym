@@ -216,3 +216,44 @@ class FetchEnv(robot_env.RobotEnv):
             self.viewer.cam.type = const.CAMERA_FIXED
             img = self.viewer._read_pixels_as_in_window()
             return img
+
+
+    def set_object(self,pos):
+        if self.has_object:
+            assert len(pos)==3
+            object_xpos = pos
+            object_qpos = self.sim.data.get_joint_qpos('object0:joint')
+            assert object_qpos.shape == (7,)
+            object_qpos[:3] = object_xpos
+            object_qpos[2] += 0.032
+            self.sim.data.set_joint_qpos('object0:joint', object_qpos)
+    
+    def set_goal(self,pos):
+        assert len(pos)==3
+        self.goal = np.array(pos)
+
+    def real2sim(self,pos):
+        assert len(pos)==3
+        centre = np.array([1.3,0.75,0.400])
+        pos = np.clip(pos,[170,-84,-30],[290,+84,30])
+        pos[0] -= 230 #Centre X Value
+        pos = pos*0.001 # Convert from mm to m
+        pos[2] += 0.030 # Centre Z Value
+        pos[0] = pos[0] *  (0.25/0.060)
+        pos[1] = pos[1] * (0.35/0.084)
+
+        
+        return list(pos + centre)
+
+    def sim2real(self,pos):
+        assert len(pos)==3
+        centre = np.array([1.3,0.75,0.400])
+        pos = np.clip(pos,[1.05,0.4,0.4],[1.55,1.1,0.46])
+        pos = pos - centre
+        pos[0] = pos[0] *  (0.060/0.25)
+        pos[1] = pos[1] * (0.084/0.35)
+        pos[2] -= 0.030
+        pos  = pos*1000
+        pos[0] += 230
+ 
+        return list(pos)
