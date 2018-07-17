@@ -182,7 +182,11 @@ class FetchEnv(robot_env.RobotEnv):
             if self.target_in_the_air and self.np_random.uniform() < 0.5:
                 goal[2] += self.np_random.uniform(0, 0.45)
         else:
-            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3)
+            goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3) #Original
+
+            #Modified
+            goal[0] = self.np_random.uniform(1.05, 1.55)
+            goal[1] = self.np_random.uniform(0.4, 1.1)
             goal[2] = self.np_random.uniform(0.4, 0.46)
         return goal.copy()
 
