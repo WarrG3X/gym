@@ -166,10 +166,14 @@ class FetchEnv(robot_env.RobotEnv):
         if self.has_object:
             #Modified
             if self.modified_goal_generation:
-                goal = self.initial_gripper_xpos[:3]
-                goal[0] = self.np_random.uniform(1.05, 1.55)
-                goal[1] = self.np_random.uniform(0.4, 1.1)
-                goal[2] = 0.4
+                object_xpos = self.initial_gripper_xpos
+                object_xpos[0] = self.np_random.uniform(1.05, 1.55)
+                object_xpos[1] = self.np_random.uniform(0.4, 1.1)
+                object_xpos[2] = 0.4
+                object_qpos = self.sim.data.get_joint_qpos('object0:joint')
+                assert object_qpos.shape == (7,)
+                object_qpos[:2] = object_xpos[:2]
+                self.sim.data.set_joint_qpos('object0:joint', object_qpos)
             #Original
             else:
                 object_xpos = self.initial_gripper_xpos[:2]
