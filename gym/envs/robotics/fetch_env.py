@@ -167,9 +167,9 @@ class FetchEnv(robot_env.RobotEnv):
             #Modified
             if self.modified_goal_generation:
                 object_xpos = self.initial_gripper_xpos
-                object_xpos[0] = self.np_random.uniform(1.05, 1.55)
-                object_xpos[1] = self.np_random.uniform(0.4, 1.1)
-                object_xpos[2] = 0.4
+                object_xpos[0] = self.np_random.uniform(1.15, 1.45)
+                object_xpos[1] = self.np_random.uniform(0.5, 1)
+                object_xpos[2] = 0.4032
                 object_qpos = self.sim.data.get_joint_qpos('object0:joint')
                 assert object_qpos.shape == (7,)
                 object_qpos[:2] = object_xpos[:2]
@@ -194,9 +194,9 @@ class FetchEnv(robot_env.RobotEnv):
                 goal = self.initial_gripper_xpos[:3]
                 goal[0] = self.np_random.uniform(1.05, 1.55)
                 goal[1] = self.np_random.uniform(0.4, 1.1)
-                goal[2] = 0.4
+                goal[2] = 0.4132
                 if self.target_in_the_air and self.np_random.uniform() < 0.5:
-                    goal[2] = self.np_random.uniform(0.4, 0.46)  
+                    goal[2] = self.np_random.uniform(0.4032, 0.46)  
             
             #Original
             else:
@@ -211,7 +211,7 @@ class FetchEnv(robot_env.RobotEnv):
                 goal = self.initial_gripper_xpos[:3]
                 goal[0] = self.np_random.uniform(1.05, 1.55)
                 goal[1] = self.np_random.uniform(0.4, 1.1)
-                goal[2] = self.np_random.uniform(0.4, 0.46)
+                goal[2] = self.np_random.uniform(0.4032, 0.46)
             #Original
             else:
                 goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3) 
