@@ -134,6 +134,9 @@ class FetchEnv(robot_env.RobotEnv):
         self.viewer.cam.elevation = -14.
         self.viewer._hide_overlay = True
 
+        self.viewer.cam.fixedcamid = 3
+        self.viewer.cam.type = const.CAMERA_FIXED
+
     def _render_callback(self):
         # Visualize target.
         sites_offset = (self.sim.data.site_xpos - self.sim.model.site_pos).copy()
@@ -169,7 +172,7 @@ class FetchEnv(robot_env.RobotEnv):
                 object_xpos = self.initial_gripper_xpos
                 object_xpos[0] = self.np_random.uniform(1.15, 1.45)
                 object_xpos[1] = self.np_random.uniform(0.5, 1)
-                object_xpos[2] = 0.4032
+                object_xpos[2] = 0.4132
                 object_qpos = self.sim.data.get_joint_qpos('object0:joint')
                 assert object_qpos.shape == (7,)
                 object_qpos[:2] = object_xpos[:2]
@@ -192,11 +195,11 @@ class FetchEnv(robot_env.RobotEnv):
             #Modified
             if self.modified_goal_generation:
                 goal = self.initial_gripper_xpos[:3]
-                goal[0] = self.np_random.uniform(1.05, 1.55)
-                goal[1] = self.np_random.uniform(0.4, 1.1)
+                goal[0] = self.np_random.uniform(1.15, 1.45)
+                goal[1] = self.np_random.uniform(0.5, 1)
                 goal[2] = 0.4132
                 if self.target_in_the_air and self.np_random.uniform() < 0.5:
-                    goal[2] = self.np_random.uniform(0.4032, 0.46)  
+                    goal[2] = self.np_random.uniform(0.4132, 0.46)  
             
             #Original
             else:
@@ -209,9 +212,9 @@ class FetchEnv(robot_env.RobotEnv):
             #Modified
             if self.modified_goal_generation:
                 goal = self.initial_gripper_xpos[:3]
-                goal[0] = self.np_random.uniform(1.05, 1.55)
-                goal[1] = self.np_random.uniform(0.4, 1.1)
-                goal[2] = self.np_random.uniform(0.4032, 0.46)
+                goal[0] = self.np_random.uniform(1.15, 1.45)
+                goal[1] = self.np_random.uniform(0.5, 1)
+                goal[2] = self.np_random.uniform(0.4132, 0.46)
             #Original
             else:
                 goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3) 
@@ -281,12 +284,16 @@ class FetchEnv(robot_env.RobotEnv):
     def sim2real(self,pos):
         assert len(pos)==3
         centre = np.array([1.3,0.75,0.400])
-        pos = np.clip(pos,[1.05,0.4,0.4],[1.55,1.1,0.46])
+        print("Z : ",pos[2])
+        pos = np.clip(pos,[1.05,0.4,0.419],[1.55,1.1,0.539])
         pos = pos - centre
         pos[0] = pos[0] *  (0.060/0.25)
         pos[1] = pos[1] * (0.084/0.35)
+        pos[2] = pos[2] * (5/10)
         pos[2] -= 0.030
         pos  = pos*1000
         pos[0] += 230
  
+        pos[2] -= 10
+        pos[2] = np.clip(pos[2],-30,30)
         return list(pos)
