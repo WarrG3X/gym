@@ -23,7 +23,9 @@ Added the following functions -
 
 Added a flag ``self.modified_goal_generation`` which modifies the goal generation to utilize the entire table.
 
-Modifed ``reset`` function in ``robot_env.py`` to take an optiona value goal to directly set the goal while initializing
+Modifed ``reset`` function in ``robot_env.py`` to take an optional value ``goal`` to directly set the goal while initializing.
+
+
 ----------------------------------------------------------------------------------------------
 
 
