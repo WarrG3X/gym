@@ -11,7 +11,20 @@ Added Domain Randomization for Fetch Enviroments. These can be accessed by using
     env.reset()
     env.render()
 
---------------------------------------------------------------------------------------------------------------------------
+Added the following functions - 
+
+.. code:: python
+
+    capture()   #Renders and returns an Image
+    set_object(pos) #Set position of block/object
+    set_goal(pos) #Set position of goal
+    real2sim(pos) #Map Coordinates from real world to the sim
+    sim2real(pos) #Map Coordinates from sim to the real world
+
+Added a flag ``self.modified_goal_generation`` which modifies the goal generation to utilize the entire table.
+
+Modifed ``reset`` function in ``robot_env.py`` to take an optiona value goal to directly set the goal while initializing
+----------------------------------------------------------------------------------------------
 
 
 **OpenAI Gym is a toolkit for developing and comparing reinforcement learning algorithms.** This is the ``gym`` open-source library, which gives you access to a standardized set of environments.
