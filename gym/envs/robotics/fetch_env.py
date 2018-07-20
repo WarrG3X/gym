@@ -284,7 +284,6 @@ class FetchEnv(robot_env.RobotEnv):
     def sim2real(self,pos):
         assert len(pos)==3
         centre = np.array([1.3,0.75,0.400])
-        print("Z : ",pos[2])
         pos = np.clip(pos,[1.05,0.4,0.419],[1.55,1.1,0.539])
         pos = pos - centre
         pos[0] = pos[0] *  (0.060/0.25)
