@@ -11,7 +11,7 @@ Added Domain Randomization for Fetch Enviroments. These can be accessed by using
     env.reset()
     env.render()
 
-Added the following functions - 
+Added the following functions to ``fetch_env.py`` - 
 
 .. code:: python
 
@@ -23,7 +23,9 @@ Added the following functions -
 
 Added a flag ``self.modified_goal_generation`` which modifies the goal generation to utilize the entire table.
 
-Modifed ``reset`` function in ``robot_env.py`` to take an optiona value goal to directly set the goal while initializing
+Modifed ``reset`` function in ``robot_env.py`` to take an optional value ``goal`` to directly set the goal while initializing.
+
+
 ----------------------------------------------------------------------------------------------
 
 
