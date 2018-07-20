@@ -11,7 +11,7 @@ Added Domain Randomization for Fetch Enviroments. These can be accessed by using
     env.reset()
     env.render()
 
-Added the following functions - 
+Added the following functions to ``fetch_env.py`` - 
 
 .. code:: python
 
